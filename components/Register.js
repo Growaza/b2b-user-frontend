@@ -36,11 +36,11 @@ export default function Register({ handleCloseRegister }) {
     };
 
     fetch(
-      "https://b2bbackend-production.up.railway.app/api/v1/accounts/vendor-registration/",
+      "http://localhost:8000/api/v1/accounts/vendor-registration/",
       {
         method: "POST",
         headers: {},
-        body: JSON.stringify(item),
+        body: JSON.stringify(),
       }
     )
       .then((res) => res.json())
@@ -346,7 +346,7 @@ export default function Register({ handleCloseRegister }) {
 //       password,
 //     };
 //     fetch(
-//       "https://b2bbackend-production.up.railway.app/api/v1/accounts/vendor-registration/",
+//       "http://localhost:8000/api/v1/accounts/vendor-registration/",
 //       {
 //         method: "POST",
 //         headers: {},

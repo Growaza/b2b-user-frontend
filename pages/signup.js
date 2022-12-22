@@ -75,7 +75,7 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 }));
 
 function checkProperties(obj) {
-  return Object.keys(obj).map((key)=>obj[key] == null || obj[key] == "").includes(false);
+  return Object.keys(obj).map((key) => obj[key] == null || obj[key] == "").includes(false);
 }
 
 const SignUp = () => {
@@ -131,12 +131,12 @@ const SignUp = () => {
 
   const stateChange = (event) => {
     setSelectedState(event.target.value);
-    setData({...data, "state": event?.target?.value || ""});
+    setData({ ...data, "state": event?.target?.value || "" });
   };
 
   const cityChange = (event) => {
     setSelectedCity(event.target.value);
-    setData({...data, "city": event?.target?.value || ""});
+    setData({ ...data, "city": event?.target?.value || "" });
   };
 
   useEffect(() => {
@@ -149,7 +149,7 @@ const SignUp = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     try {
       delete data["text"];
     } catch {
@@ -157,23 +157,24 @@ const SignUp = () => {
     }
     setLoading(true);
     try {
-      console.log(checkProperties(data),data);
+      console.log(checkProperties(data), data);
       if (checkProperties(data)) {
         console.log(data);
         const response = await myApi.post(
-          "/api/v1/accounts/vendor-registration/",
-          data
+          "/api/v1/accounts/generate_otp/",
+          { phone: data.phone_number }
         );
+        localStorage.setItem('pre_user',Json.stringify(data))
         console.log("response", response);
         if (response?.data?.valid) {
           console.log("true");
           setNotify({
             isOpen: true,
-            message: `User Signup successfully`,
+            message: `OTP Sent Successfully`,
             type: "success",
           });
           setLoading(false);
-          router.push("/login");
+          router.push("/login/verify_mobile");
         } else {
           console.log("false");
           setNotify({
@@ -238,418 +239,418 @@ const SignUp = () => {
 
   return (
     <>
-    <BlankLayout>
-      <motion.div ref={ref} animate={controls} initial="hidden">
-        <Box className="content-right" sx={{ position: "fixed" }}>
-          {!hidden ? (
-            <Box
-              sx={{
-                flex: 1,
-                display: "flex",
-                position: "relative",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+      <BlankLayout>
+        <motion.div ref={ref} animate={controls} initial="hidden">
+          <Box className="content-right" sx={{ position: "fixed" }}>
+            {!hidden ? (
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  position: "relative",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <motion.div
+                    ref={ref}
+                    initial="hidden"
+                    variants={fadeRight(2.0)}
+                    animate={controls}
+                    onChange={(inView) => console.log("Inview:", inView)}
+                    className="w-60 md:w-96 md:h-60"
+                  >
+                    <img src="contact-img.png" alt="car photo" />
+                  </motion.div>
+                </Box>
+                <FooterIllustrationsV2 />
+              </Box>
+            ) : null}
+            <RightWrapper
+              sx={{ borderLeft: `1px solid rgba(76, 78, 100, 0.12)` }}
             >
               <Box
                 sx={{
-                  width: "100%",
+                  p: 7,
+                  height: "100%",
                   display: "flex",
-                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "background.paper",
                 }}
               >
-                <motion.div
-                  ref={ref}
-                  initial="hidden"
-                  variants={fadeRight(2.0)}
-                  animate={controls}
-                  onChange={(inView) => console.log("Inview:", inView)}
-                  className="w-60 md:w-96 md:h-60"
-                >
-                  <img src="contact-img.png" alt="car photo" />
-                </motion.div>
-              </Box>
-              <FooterIllustrationsV2 />
-            </Box>
-          ) : null}
-          <RightWrapper
-            sx={{ borderLeft: `1px solid rgba(76, 78, 100, 0.12)` }}
-          >
-            <Box
-              sx={{
-                p: 7,
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "background.paper",
-              }}
-            >
-              <BoxWrapper>
-                <Box
-                  sx={{
-                    top: 30,
-                    left: 40,
-                    display: "flex",
-                    position: "absolute",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <image
-                    className="image"
-                    src="/main.png"
-                    alt="logo"
-                    width={60}
-                    height={60}
-                  />
-                  <Typography
-                    variant="h6"
+                <BoxWrapper>
+                  <Box
                     sx={{
-                      ml: 2,
-                      lineHeight: 1,
-                      fontWeight: 700,
-                      fontSize: "1.5rem !important",
-                      color: "#e33825",
+                      top: 30,
+                      left: 40,
+                      display: "flex",
+                      position: "absolute",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    B2b Cabs
-                  </Typography>
-                </Box>
-                <Box sx={{ mb: 3 }}>
-                  <TypographyStyled variant="h5">{`Welcome to B2B Cabs! 👋🏻`}</TypographyStyled>
-                  <Typography variant="body2">
-                    Please sign-in to your account and start the adventure
-                  </Typography>
-                </Box>
-                <form
-                  noValidate
-                  autoComplete="off"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <Grid container>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>First Name</InputLabel>
-                      <TextField
-                        type="text"
-                        name="first_name"
-                        id="first_name"
-                        autoComplete="given-firstname"
-                        // label="First Name"
-                        value={data?.first_name}
-                        onChange={(e) => updateData(e)}
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Last Name</InputLabel>
-                      <TextField
-                        type="text"
-                        name="last_name"
-                        id="last_name"
-                        autoComplete="given-lastname"
-                        // label="Last Name"
-                        value={data?.last_name}
-                        onChange={(e) => updateData(e)}
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>email</InputLabel>
-                      <TextField
-                        type="email"
-                        name="email"
-                        id="email"
-                        // label="email"
-                        autoComplete="given-email"
-                        value={data?.email}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid itm md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                    <image
+                      className="image"
+                      src="/main.png"
+                      alt="logo"
+                      width={60}
+                      height={60}
+                    />
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        ml: 2,
+                        lineHeight: 1,
+                        fontWeight: 700,
+                        fontSize: "1.5rem !important",
+                        color: "#e33825",
+                      }}
+                    >
+                      B2b Cabs
+                    </Typography>
+                  </Box>
+                  <Box sx={{ mb: 3 }}>
+                    <TypographyStyled variant="h5">{`Welcome to B2B Cabs! 👋🏻`}</TypographyStyled>
+                    <Typography variant="body2">
+                      Please sign-in to your account and start the adventure
+                    </Typography>
+                  </Box>
+                  <form
+                    noValidate
+                    autoComplete="off"
+                    onSubmit={(e) => e.preventDefault()}
+                  >
+                    <Grid container>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>First Name</InputLabel>
+                        <TextField
+                          type="text"
+                          name="first_name"
+                          id="first_name"
+                          autoComplete="given-firstname"
+                          // label="First Name"
+                          value={data?.first_name}
+                          onChange={(e) => updateData(e)}
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Last Name</InputLabel>
+                        <TextField
+                          type="text"
+                          name="last_name"
+                          id="last_name"
+                          autoComplete="given-lastname"
+                          // label="Last Name"
+                          value={data?.last_name}
+                          onChange={(e) => updateData(e)}
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>email</InputLabel>
+                        <TextField
+                          type="email"
+                          name="email"
+                          id="email"
+                          // label="email"
+                          autoComplete="given-email"
+                          value={data?.email}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid itm md={6} sm={12} xs={12} sx={{ pr: 1 }}>
                         <InputLabel>
                           Password
                         </InputLabel>
-                      <FormControl fullWidth>
-                        <OutlinedInput
-                          // label="Password"
-                          name="password"
-                          value={data?.password}
-                          id="auth-login-v2-password"
-                          onChange={(e) => updateData(e)}
+                        <FormControl fullWidth>
+                          <OutlinedInput
+                            // label="Password"
+                            name="password"
+                            value={data?.password}
+                            id="auth-login-v2-password"
+                            onChange={(e) => updateData(e)}
+                            sx={{ mb: 2 }}
+                            type={values.showPassword ? "text" : "password"}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                  edge="end"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  aria-labels="toggle password visibility"
+                                >
+                                  {values.showPassword ? (
+                                    <EyeOutline />
+                                  ) : (
+                                    <EyeOffOutline />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                          />
+                        </FormControl>
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>State</InputLabel>
+                        <TextField
+                          // label="State"
+                          select
+                          name="state"
+                          value={selectedState}
+                          onChange={stateChange}
+                          autoFocus
+                          fullWidth
+                          variant="outlined"
+                          size="small"
                           sx={{ mb: 2 }}
-                          type={values.showPassword ? "text" : "password"}
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <IconButton
-                                edge="end"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                aria-labels="toggle password visibility"
-                              >
-                                {values.showPassword ? (
-                                  <EyeOutline />
-                                ) : (
-                                  <EyeOffOutline />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          }
-                        />
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>State</InputLabel>
-                      <TextField
-                        // label="State"
-                        select
-                        name="state"
-                        value={selectedState}
-                        onChange={stateChange}
-                        autoFocus
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        sx={{ mb: 2 }}
-                      >
-                        {states &&
-                          states.map((s) => {
-                            return (
-                              <MenuItem key={s.isoCode} value={s.isoCode}>
-                                {s.name}
-                              </MenuItem>
-                            );
-                          })}
-                      </TextField>
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>City</InputLabel>
-                      <TextField
-                        name="city"
-                        select
-                        // label="City"
-                        value={selectedCity}
-                        onChange={cityChange}
-                        autoFocus
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        sx={{ mb: 2 }}
-                      >
-                        {selectedState &&
-                          City.getCitiesOfState("IN", selectedState).map(
-                            (c) => {
+                        >
+                          {states &&
+                            states.map((s) => {
                               return (
-                                <MenuItem key={c.name} value={c.name}>
-                                  {c.name}
+                                <MenuItem key={s.isoCode} value={s.isoCode}>
+                                  {s.name}
                                 </MenuItem>
                               );
+                            })}
+                        </TextField>
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>City</InputLabel>
+                        <TextField
+                          name="city"
+                          select
+                          // label="City"
+                          value={selectedCity}
+                          onChange={cityChange}
+                          autoFocus
+                          fullWidth
+                          variant="outlined"
+                          size="small"
+                          sx={{ mb: 2 }}
+                        >
+                          {selectedState &&
+                            City.getCitiesOfState("IN", selectedState).map(
+                              (c) => {
+                                return (
+                                  <MenuItem key={c.name} value={c.name}>
+                                    {c.name}
+                                  </MenuItem>
+                                );
+                              }
+                            )}
+                        </TextField>
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Date of birth</InputLabel>
+                        <TextField
+                          type="date"
+                          name="dob"
+                          id="date"
+                          value={data?.date_of_jorney}
+                          onChange={(e) => updateData(e)}
+                          autoComplete="date_of_jorney"
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Phone Number</InputLabel>
+                        <TextField
+                          type="text"
+                          name="phone_number"
+                          id="phone_number"
+                          autoComplete="given-name"
+                          // label="Phone Number"
+                          value={data?.phone_number}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Business Name</InputLabel>
+                        <TextField
+                          type="text"
+                          name="business_name"
+                          id="business_name"
+                          // label="Business Name"
+                          value={data?.business_name}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Business Type</InputLabel>
+                        <TextField
+                          type="text"
+                          name="business_type"
+                          id="business_type"
+                          // label="Business Type"
+                          value={data?.business_type}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>IFSC Code</InputLabel>
+                        <TextField
+                          type="text"
+                          name="ifsc_code"
+                          id="ifsc_code"
+                          // label="IFSC Code"
+                          value={data?.ifsc_code}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Beneficiary Name</InputLabel>
+                        <TextField
+                          type="text"
+                          name="beneficiary_name"
+                          // label="Beneficiary Name"
+                          id="car-varient"
+                          value={data?.beneficiary_name}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Account Type</InputLabel>
+                        <TextField
+                          type="text"
+                          name="account_type"
+                          // label="Account Type"
+                          id="account_type"
+                          value={data?.account_type}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
+                        <InputLabel>Account Number</InputLabel>
+                        <TextField
+                          type="number"
+                          name="account_number"
+                          // label="Account Number"
+                          id="account_number"
+                          value={data?.account_number}
+                          onChange={(e) => updateData(e)}
+                          autoFocus
+                          fullWidth
+                          sx={{ mb: 2 }}
+                        />
+                      </Grid>
+                      <Grid container spacing={1}>
+                        <Grid item md={12} sm={12} xs={12} sx={{ my: 1 }}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox checked={true} onChange={handleChange('term_condition')} name="termandcondition" />
                             }
-                          )}
-                      </TextField>
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Date of birth</InputLabel>
-                      <TextField
-                        type="date"
-                        name="dob"
-                        id="date"
-                        value={data?.date_of_jorney}
-                        onChange={(e) => updateData(e)}
-                        autoComplete="date_of_jorney"
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Phone Number</InputLabel>
-                      <TextField
-                        type="text"
-                        name="phone_number"
-                        id="phone_number"
-                        autoComplete="given-name"
-                        // label="Phone Number"
-                        value={data?.phone_number}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Business Name</InputLabel>
-                      <TextField
-                        type="text"
-                        name="business_name"
-                        id="business_name"
-                        // label="Business Name"
-                        value={data?.business_name}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Business Type</InputLabel>
-                      <TextField
-                        type="text"
-                        name="business_type"
-                        id="business_type"
-                        // label="Business Type"
-                        value={data?.business_type}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>IFSC Code</InputLabel>
-                      <TextField
-                        type="text"
-                        name="ifsc_code"
-                        id="ifsc_code"
-                        // label="IFSC Code"
-                        value={data?.ifsc_code}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Beneficiary Name</InputLabel>
-                      <TextField
-                        type="text"
-                        name="beneficiary_name"
-                        // label="Beneficiary Name"
-                        id="car-varient"
-                        value={data?.beneficiary_name}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Account Type</InputLabel>
-                      <TextField
-                        type="text"
-                        name="account_type"
-                        // label="Account Type"
-                        id="account_type"
-                        value={data?.account_type}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid item md={6} sm={12} xs={12} sx={{ pr: 1 }}>
-                      <InputLabel>Account Number</InputLabel>
-                      <TextField
-                        type="number"
-                        name="account_number"
-                        // label="Account Number"
-                        id="account_number"
-                        value={data?.account_number}
-                        onChange={(e) => updateData(e)}
-                        autoFocus
-                        fullWidth
-                        sx={{ mb: 2 }}
-                      />
-                    </Grid>
-                    <Grid container spacing={1}>
-                    <Grid item md={12} sm={12} xs={12} sx={{ my: 1 }}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox checked={true} onChange={handleChange('term_condition')} name="termandcondition" />
-                        }
-                        label={<div>By checking this box you agree to the <Link href="/privacypolicy">
+                            label={<div>By checking this box you agree to the <Link href="/privacypolicy">
                               <a target="_blank" className='privacy_term_link'>
                                 Privacy Policy
                               </a>
                             </Link> and <Link href="/termsandconditions">
-                              <a target="_blank" className='privacy_term_link'>
-                                Terms and Conditions
-                              </a>
-                            </Link></div>}
-                      />
-                      {/* {
+                                <a target="_blank" className='privacy_term_link'>
+                                  Terms and Conditions
+                                </a>
+                              </Link></div>}
+                          />
+                          {/* {
                         formError && formError.term_condition && (
                           <FormHelperText error id="country-error">
                             {formError.term_condition}
                           </FormHelperText>
                         )
                       } */}
-                    </Grid>
-								</Grid>
+                        </Grid>
+                      </Grid>
 
-                    <Grid
-                      item
-                      md={12}
-                      sx={{ width: "100%" }}
-                    >
-                      {
-                        !loading ? (
-                          <Box>
-                             <button
+                      <Grid
+                        item
+                        md={12}
+                        sx={{ width: "100%" }}
+                      >
+                        {
+                          !loading ? (
+                            <Box>
+                              <button
                                 type="submit"
-                                style={{width: "100%"}}
+                                style={{ width: "100%" }}
                                 className="py-2 mb-4 text-sm font-medium rounded-md text-white bg-[#fec601] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 onClick={handleSubmit}
                               >
                                 Submit
                               </button>
                             </Box>
-                        ) : (
-                          <Box sx={{display: "flex", justifyContent: "center", mb: 2}}>
-                            <CircularProgress size={25}/>
-                          </Box>
-                        )
-                      }
-                      
+                          ) : (
+                            <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+                              <CircularProgress size={25} />
+                            </Box>
+                          )
+                        }
+
+                      </Grid>
+                      <Grid item md={12}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography sx={{ mr: 1, color: "text.secondary" }}>
+                            Already have an account?
+                          </Typography>
+                          <Typography>
+                            <Link passHref href="/login">
+                              <Typography
+                                component={MuiLink}
+                                sx={{ color: "primary.main" }}
+                              >
+                                Login
+                              </Typography>
+                            </Link>
+                          </Typography>
+                        </Box>
+                      </Grid>
                     </Grid>
-                    <Grid item md={12}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          flexWrap: "wrap",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography sx={{ mr: 1, color: "text.secondary" }}>
-                          Already have an account?
-                        </Typography>
-                        <Typography>
-                          <Link passHref href="/login">
-                            <Typography
-                              component={MuiLink}
-                              sx={{ color: "primary.main" }}
-                            >
-                              Login
-                            </Typography>
-                          </Link>
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </form>
-              </BoxWrapper>
-            </Box>
-          </RightWrapper>
-        </Box>
-      </motion.div>
-      <Notification notify={notify} setNotify={setNotify} />
-    </BlankLayout>
+                  </form>
+                </BoxWrapper>
+              </Box>
+            </RightWrapper>
+          </Box>
+        </motion.div>
+        <Notification notify={notify} setNotify={setNotify} />
+      </BlankLayout>
     </>
   );
 };
