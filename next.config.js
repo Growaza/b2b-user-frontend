@@ -14,6 +14,7 @@ module.exports = withPlugins([[withImages]], {
     config.resolve.modules.push(path.resolve("./"));
     return config;
   },
+  trailingSlash: true,
   images: {
     disableStaticImages: true,
   },

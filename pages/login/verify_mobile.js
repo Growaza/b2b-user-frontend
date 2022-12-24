@@ -119,9 +119,9 @@ export default function VerifyMobile()  {
 
   const [errorMsg, setErrorMsg] = useState();
 
-  const handleSubmit = async (otp) => {
+  const handleSubmit = async () => {
     setLoading(true);
-    const _user = JSON.parse(localStorage.getItem('pre_user'));
+    let _user = localStorage.getItem('pre_user');
     if (!otp || !_user) {
       setNotify({
         isOpen: true,
@@ -131,7 +131,9 @@ export default function VerifyMobile()  {
       setLoading(false);
       return true;
     }
-    const reponse = await myApi.post("/api/v1/accounts/login-verify/", { ...user, otp });
+    _user = JSON.parse(_user);
+    console.log(_user)
+    const reponse = await myApi.post("/api/v1/accounts/login-verify/", { ..._user, otp });
     if (reponse?.data?.valid) {
       setErrorMsg("");
       setNotify({

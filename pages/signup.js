@@ -110,7 +110,7 @@ const SignUp = () => {
     password: "",
     phone_number: "",
     business_name: "",
-    business_type: "",
+    business_type: "Individual",
     ifsc_code: "",
     beneficiary_name: "",
     account_type: "",
@@ -164,7 +164,7 @@ const SignUp = () => {
           "/api/v1/accounts/generate_otp/",
           { phone: data.phone_number }
         );
-        localStorage.setItem('pre_user',Json.stringify(data))
+        localStorage.setItem('pre_user',JSON.stringify(data))
         console.log("response", response);
         if (response?.data?.valid) {
           console.log("true");
@@ -196,11 +196,11 @@ const SignUp = () => {
       setLoading(false);
       setNotify({
         isOpen: true,
-        message: Object.entries(e?.response?.data)[0][1][0],
+        message: JSON.stringify(e?.response?.data),
         type: "error",
       });
       if (e?.response?.data) {
-        setErrorMsg(Object.entries(e?.response?.data)[0][1][0]);
+        setErrorMsg(JSON.stringify(e?.response?.data));
       } else {
         setErrorMsg(errorMsg);
       }
@@ -507,6 +507,7 @@ const SignUp = () => {
                           value={data?.business_type}
                           onChange={(e) => updateData(e)}
                           autoFocus
+                          disabled
                           fullWidth
                           sx={{ mb: 2 }}
                         />
