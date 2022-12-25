@@ -110,7 +110,7 @@ const SignUp = () => {
     password: "",
     phone_number: "",
     business_name: "",
-    business_type: "Individual",
+    business_type: "individual",
     ifsc_code: "",
     beneficiary_name: "",
     account_type: "",

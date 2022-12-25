@@ -133,7 +133,7 @@ export default function VerifyMobile()  {
     }
     _user = JSON.parse(_user);
     console.log(_user)
-    const reponse = await myApi.post("/api/v1/accounts/login-verify/", { ..._user, otp });
+    const reponse = await myApi.post("/api/v1/accounts/vendor-registration/", { ..._user, otp });
     if (reponse?.data?.valid) {
       setErrorMsg("");
       setNotify({
@@ -147,11 +147,11 @@ export default function VerifyMobile()  {
     } else {
       setNotify({
         isOpen: true,
-        message: reponse?.data?.response,
+        message: reponse?.data?.message,
         type: "error",
       });
       setLoading(false);
-      setErrorMsg(reponse?.data?.response);
+      setErrorMsg(reponse?.data?.message);
     }
   };
 
