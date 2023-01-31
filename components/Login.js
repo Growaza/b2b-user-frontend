@@ -34,7 +34,7 @@ export default function Login({ handleClose }) {
     });
 
     // fetch(
-    //   "http://localhost:8000/api/v1/accounts/login-verify/",
+    //   "https://b2bbackend-production.up.railway.app/api/v1/accounts/login-verify/",
     //   {
     //     method: "POST",
     //     headers: { "content-Type": "application/json" },
@@ -149,7 +149,7 @@ export default function Login({ handleClose }) {
 //     console.log(email, password);
 //     let item = { email, password };
 //     fetch(
-//       "http://localhost:8000/api/v1/accounts/login-verify/",
+//       "https://b2bbackend-production.up.railway.app/api/v1/accounts/login-verify/",
 //       {
 //         method: "POST",
 //         headers: { "content-Type": "application/json" },
