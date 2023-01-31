@@ -203,7 +203,7 @@ const LoginV2 = () => {
                     onChange={(inView) => console.log("Inview:", inView)}
                     className="w-60 md:w-96 md:h-60"
                   >
-                    <img src="contact-img.png" alt="car photo" />
+                    <img src="/contact-img.png" alt="car photo" />
                   </motion.div>
                 </Box>
                 <FooterIllustrationsV2 />

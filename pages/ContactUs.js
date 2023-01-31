@@ -349,7 +349,7 @@ function ContactUs({ isNav = true }) {
                   animate={controls}
                   onChange={(inView) => console.log("Inview:", inView)}
                   className="w-60 md:w-96 md:h-60 md:object-contain">
-                  <img src="contact-img.png" alt="car photo" />
+                  <img src="/contact-img.png" alt="car photo" />
                 </motion.div>
               </Box>
             </div>

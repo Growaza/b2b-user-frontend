@@ -236,7 +236,7 @@ const SignUp = () => {
   };
 
   //   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
-
+  const [isUploadClicked,setIsUploadClicked] = useState(false);
   return (
     <>
       <BlankLayout>
@@ -267,7 +267,7 @@ const SignUp = () => {
                     onChange={(inView) => console.log("Inview:", inView)}
                     className="w-60 md:w-96 md:h-60"
                   >
-                    <img src="contact-img.png" alt="car photo" />
+                    <img src="/contact-img.png" alt="car photo" />
                   </motion.div>
                 </Box>
                 <FooterIllustrationsV2 />
@@ -568,6 +568,10 @@ const SignUp = () => {
                           sx={{ mb: 2 }}
                         />
                       </Grid>
+                      <button onClick={()=>{
+                        setIsUploadClicked(true)
+                        window.open('https://forms.gle/V6q4acXmm3ZySU4j9','_blank')
+                      }} className="w-full px-4 py-2 rounded-md border-yellow-400 text-yellow-400 border-2 hover:ring-2 ring-yellow-200"> Upload documents here <span className="text-red-400">*</span></button>
                       <Grid container spacing={1}>
                         <Grid item md={12} sm={12} xs={12} sx={{ my: 1 }}>
                           <FormControlLabel
@@ -603,9 +607,10 @@ const SignUp = () => {
                           !loading ? (
                             <Box>
                               <button
+                                disabled={!isUploadClicked}
                                 type="submit"
                                 style={{ width: "100%" }}
-                                className="py-2 mb-4 text-sm font-medium rounded-md text-white bg-[#fec601] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="py-2 mb-4 text-sm font-medium rounded-md text-white bg-[#fec601] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-500"
                                 onClick={handleSubmit}
                               >
                                 Submit
